@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Modal, Label, TextInput, Select } from 'flowbite-react';
+import React, { useState } from 'react';
+import { Button, Modal, Label, TextInput } from 'flowbite-react';
 
 function AddPeriodData({ handleChange, handleSubmit, period }) {
     const [show, setShow] = useState(false)

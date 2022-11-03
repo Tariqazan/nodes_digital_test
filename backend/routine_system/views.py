@@ -5,24 +5,39 @@ from django.http import Http404
 
 from .models import Period
 from .serializers import PeriodSerializer
+
 import datetime
+
+from django.http import FileResponse
+from fpdf import FPDF
 
 # Create your views here.
 time_now = datetime.datetime.now()
 
+
 class RoutineView(APIView):
     def get(self, request, format=None):
-        period = Period.objects.filter(schedule__month=time_now.month,schedule__year=time_now.year)
+        period = Period.objects.filter(
+            schedule__month=time_now.month, schedule__year=time_now.year)
         serializer = PeriodSerializer(period, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        print(request.data)
         serializer = PeriodSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data = request.data.dict()
+        date = datetime.datetime.fromisoformat(
+            data['schedule']).strftime("%Y/%m/%d %H:%M:%S")
+        year = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").year
+        month = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").month
+        check = Period.objects.filter(
+            schedule__month=month, schedule__year=year)
+        if check == False:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("Already Class registered", status=status.HTTP_400_BAD_REQUEST)
 
 
 class PeriodView(APIView):
@@ -49,3 +64,26 @@ class PeriodView(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GeneratePdf(APIView):
+    def post(self, request, format=None):
+        data = request.data
+        pdf = FPDF('P', 'mm', 'A4')
+        pdf.add_page()
+        pdf.set_font('courier', 'B', 16)
+        pdf.cell(
+            40, 10, f'Routine for this {time_now.strftime("%B")}:', 0, 1, 2)
+        pdf.cell(20, 10, '', 0, 1, 2)
+        pdf.set_font('courier', '', 12)
+        pdf.cell(
+            200, 8, f"{'Period'.ljust(30)} {'Subject'.rjust(0)} {'Schedule'.rjust(20)}", 0, 1, 2)
+        for line in data:
+            date = datetime.datetime.fromisoformat(
+                line['schedule'][:-1] + '+00:00').strftime("%Y/%m/%d %H:%M:%S")
+            pdf.cell(
+                200, 8, f"{line['period'].ljust(30)} {line['subject'].rjust(0)} {date.rjust(30)}", 0, 1, 2)
+        file_name = f'media/report_{time_now.strftime("%B")}.pdf'
+        with open(file_name, 'w'):
+            pdf.output(file_name, 'F')
+        return Response(file_name, status=status.HTTP_201_CREATED)

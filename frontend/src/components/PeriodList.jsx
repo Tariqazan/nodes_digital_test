@@ -1,8 +1,8 @@
-import { Badge } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import axiosInstance from '../services/axiosInstance';
 import AddPeriodData from './AddPeriodData';
+import { Badge, Button, Navbar } from 'flowbite-react';
 
 function PeriodList() {
 
@@ -26,34 +26,34 @@ function PeriodList() {
       .get(`/routine/`)
       .then((res) => {
         var p1 = res.data.filter(period => {
-          return period.period == "p1"
+          return period.period === "p1"
         })
         var p2 = res.data.filter(period => {
-          return period.period == "p2"
+          return period.period === "p2"
         })
         var p3 = res.data.filter(period => {
-          return period.period == "p3"
+          return period.period === "p3"
         })
         var p4 = res.data.filter(period => {
-          return period.period == "p4"
+          return period.period === "p4"
         })
         var p5 = res.data.filter(period => {
-          return period.period == "p5"
+          return period.period === "p5"
         })
         var p6 = res.data.filter(period => {
-          return period.period == "p6"
+          return period.period === "p6"
         })
         var p7 = res.data.filter(period => {
-          return period.period == "p7"
+          return period.period === "p7"
         })
         var p8 = res.data.filter(period => {
-          return period.period == "p8"
+          return period.period === "p8"
         })
         var p9 = res.data.filter(period => {
-          return period.period == "p9"
+          return period.period === "p9"
         })
         var p10 = res.data.filter(period => {
-          return period.period == "p10"
+          return period.period === "p10"
         })
         setRoutine({ "p1": p1[0], "p2": p2[0], "p3": p3[0], "p4": p4[0], "p5": p5[0], "p6": p6[0], "p7": p7[0], "p8": p8[0], "p9": p9[0], "p10": p10[0], })
       })
@@ -103,8 +103,35 @@ function PeriodList() {
       });
   }
 
+  const generatePdf = () => {
+    let requested_data = [routine.p1, routine.p2, routine.p3, routine.p4, routine.p5, routine.p6, routine.p7, routine.p8, routine.p9, routine.p10]
+    axiosInstance
+      .post(`/pdf/`, requested_data)
+      .then((res) => {
+        window.location = `http://127.0.0.1:8000/${res.data}`
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <>
+      <Navbar
+        fluid={true}
+        rounded={true}
+      >
+        <Navbar.Brand href="#">
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            Routine
+          </span>
+        </Navbar.Brand>
+        <div className="flex md:order-2">
+          <Button onClick={generatePdf}>
+            Generate PDF
+          </Button>
+          <Navbar.Toggle />
+        </div>
+      </Navbar>
       <div className="grid grid-cols-2 md:grid-cols-3">
         <div className='p-2 border border-slate-300 h-40 text-center'>
           <div className='w-full border-b-2 mb-5'>

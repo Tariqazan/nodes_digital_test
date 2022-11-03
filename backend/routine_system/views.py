@@ -5,17 +5,19 @@ from django.http import Http404
 
 from .models import Period
 from .serializers import PeriodSerializer
+import datetime
 
 # Create your views here.
-
+time_now = datetime.datetime.now()
 
 class RoutineView(APIView):
     def get(self, request, format=None):
-        period = Period.objects.all()
+        period = Period.objects.filter(schedule__month=time_now.month,schedule__year=time_now.year)
         serializer = PeriodSerializer(period, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        print(request.data)
         serializer = PeriodSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

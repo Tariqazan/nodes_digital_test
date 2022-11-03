@@ -4,6 +4,6 @@ from .views import PeriodView, RoutineView
 
 
 urlpatterns = [
-    path("", RoutineView.as_view()),
+    path("routine/", RoutineView.as_view()),
     path("period/<int:pk>/", PeriodView.as_view())
 ]

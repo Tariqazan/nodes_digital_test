@@ -1,3 +1,7 @@
+Database Table schema
+![image](https://user-images.githubusercontent.com/45086258/200006641-bc180ceb-b0d2-4e47-a608-8b9d0e9f272c.png)
+
+
 this is routine webpage, this is showing all period information of current month.
 
 ![image](https://user-images.githubusercontent.com/45086258/199998423-89c6848c-6179-4963-89c2-f73e479d5869.png)

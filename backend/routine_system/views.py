@@ -16,6 +16,7 @@ time_now = datetime.datetime.now()
 
 
 class RoutineView(APIView):
+    """List all period data for this month and add period information"""
     def get(self, request, format=None):
         period = Period.objects.filter(
             schedule__month=time_now.month, schedule__year=time_now.year)
@@ -42,6 +43,7 @@ class RoutineView(APIView):
 
 
 class PeriodView(APIView):
+    """Retrieve, update or delete period information"""
     def get_object(self, pk):
         try:
             return Period.objects.get(pk=pk)
@@ -68,6 +70,7 @@ class PeriodView(APIView):
 
 
 class GeneratePdf(APIView):
+    """generate current month routine report"""
     def post(self, request, format=None):
         data = request.data
         pdf = FPDF('P', 'mm', 'A4')

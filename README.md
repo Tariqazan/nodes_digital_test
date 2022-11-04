@@ -26,6 +26,3 @@ when all period information is provided for a month and you generate pdf this wi
 
 ![image](https://user-images.githubusercontent.com/45086258/200000872-07d43d3f-2b41-40d9-bce3-f869406fc8a3.png)
 
-Database Table schema
-![image](https://user-images.githubusercontent.com/45086258/200006641-bc180ceb-b0d2-4e47-a608-8b9d0e9f272c.png)
-

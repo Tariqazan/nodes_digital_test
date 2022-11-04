@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 12:16 PM
+-- Generation Time: Nov 04, 2022 at 03:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -245,7 +245,7 @@ CREATE TABLE `routine_system_period` (
 --
 
 INSERT INTO `routine_system_period` (`id`, `period`, `subject`, `schedule`) VALUES
-(1, 'p1', 'Bangla', '2022-11-02 13:30:00.000000');
+(1, 'p1', 'ICE115', '2022-11-04 20:07:00.000000');
 
 --
 -- Indexes for dumped tables
@@ -392,7 +392,7 @@ ALTER TABLE `django_migrations`
 -- AUTO_INCREMENT for table `routine_system_period`
 --
 ALTER TABLE `routine_system_period`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

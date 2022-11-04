@@ -9,6 +9,9 @@ for each period can add period information like subject,date and time by clickin
 this button. you can only add one subject info for a specific month if you want to change you can update information. ![image](https://user-images.githubusercontent.com/45086258/199999418-7090f65b-3004-41b8-9454-dd4f17dd47a4.png)
 by clicking this button
 
+![image](https://user-images.githubusercontent.com/45086258/200009943-b6fa6a19-6ce1-4e5f-afca-0149b62f1dc7.png)
+
+
 if you want to delete click on ![image](https://user-images.githubusercontent.com/45086258/199999648-49d5fb7a-ab12-4c3a-9e4d-be8574f925ea.png)
 this button
 

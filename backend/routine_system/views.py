@@ -24,20 +24,21 @@ class RoutineView(APIView):
 
     def post(self, request, format=None):
         serializer = PeriodSerializer(data=request.data)
-        data = request.data.dict()
+        data = request.data
         date = datetime.datetime.fromisoformat(
             data['schedule']).strftime("%Y/%m/%d %H:%M:%S")
         year = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").year
         month = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").month
-        check = Period.objects.filter(
-            schedule__month=month, schedule__year=year)
+        check = Period.objects.filter(period=data['period'],
+                                      schedule__month=month, schedule__year=year).exists()
         if check == False:
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response("Already Class registered", status=status.HTTP_400_BAD_REQUEST)
+            message = "Already Period  Exists"
+            return Response(message, status=status.HTTP_208_ALREADY_REPORTED)
 
 
 class PeriodView(APIView):
@@ -79,10 +80,8 @@ class GeneratePdf(APIView):
         pdf.cell(
             200, 8, f"{'Period'.ljust(30)} {'Subject'.rjust(0)} {'Schedule'.rjust(20)}", 0, 1, 2)
         for line in data:
-            date = datetime.datetime.fromisoformat(
-                line['schedule'][:-1] + '+00:00').strftime("%Y/%m/%d %H:%M:%S")
             pdf.cell(
-                200, 8, f"{line['period'].ljust(30)} {line['subject'].rjust(0)} {date.rjust(30)}", 0, 1, 2)
+                200, 8, f"{line['period'].ljust(30)} {line['subject'].rjust(0)} {line['schedule'].rjust(30)}", 0, 1, 2)
         file_name = f'media/report_{time_now.strftime("%B")}.pdf'
         with open(file_name, 'w'):
             pdf.output(file_name, 'F')

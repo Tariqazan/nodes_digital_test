@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Modal, Label, TextInput } from 'flowbite-react';
+import { Button, Modal, Label, TextInput, Badge } from 'flowbite-react';
+import Moment from 'react-moment';
 
-function AddPeriodData({ handleChange, handleSubmit, period }) {
+function UpdatePeriodData({ handleUpdate, period }) {
     const [show, setShow] = useState(false)
     const onClick = () => { setShow(true) }
     const onClose = () => { setShow(false) }
 
+    const [subject, setSubject] = useState(period.subject)
+    const [schedule, setSchedule] = useState(period.schedule)
+
+
     return (
         <>
-            <Button color="light" onClick={onClick}>
-                Add Period Information
-            </Button>
+            <button onClick={onClick}>
+                <svg className="w-6 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+            </button>
             <Modal
                 show={show}
                 size="md"
@@ -34,15 +41,21 @@ function AddPeriodData({ handleChange, handleSubmit, period }) {
                                 placeholder="enter subject name ..."
                                 required={true}
                                 name="subject"
-                                onChange={handleChange} />
+                                value={subject}
+                                onChange={(e) => setSubject(e.target.value)} />
                         </div>
                         <div className="relative">
-                            <TextInput type="datetime-local" name='schedule'
-                                onChange={handleChange} />
+                            <Badge color={'purple'}>
+                                <Moment format='YYYY/MM/DD'>{period.schedule}</Moment>
+                                <Moment format='hh:mm:ss'>{period.schedule}</Moment>
+                            </Badge>
+                            <TextInput type="datetime-local"
+                                name='schedule'
+                                onChange={(e) => setSchedule(e.target.value)} />
                         </div>
                         <div className="w-full">
                             <Button onClick={() => {
-                                handleSubmit(period)
+                                handleUpdate({ "id": period.id, "period": period.period, "subject": subject, "schedule": schedule }, period.id)
                             }}>
                                 Save
                             </Button>
@@ -54,4 +67,4 @@ function AddPeriodData({ handleChange, handleSubmit, period }) {
     )
 }
 
-export default AddPeriodData
+export default UpdatePeriodData

@@ -1,7 +1,3 @@
-Database Table schema
-![image](https://user-images.githubusercontent.com/45086258/200006641-bc180ceb-b0d2-4e47-a608-8b9d0e9f272c.png)
-
-
 this is routine webpage, this is showing all period information of current month.
 
 ![image](https://user-images.githubusercontent.com/45086258/199998423-89c6848c-6179-4963-89c2-f73e479d5869.png)
@@ -26,3 +22,7 @@ if all period is not filled up and you try to generate pdf it will show alert me
 when all period information is provided for a month and you generate pdf this will generate a pdf file 
 
 ![image](https://user-images.githubusercontent.com/45086258/200000872-07d43d3f-2b41-40d9-bce3-f869406fc8a3.png)
+
+Database Table schema
+![image](https://user-images.githubusercontent.com/45086258/200006641-bc180ceb-b0d2-4e47-a608-8b9d0e9f272c.png)
+
